@@ -1,6 +1,7 @@
 
 = ns
 
+  Show list of listeners.
 
 == Description
 
@@ -21,9 +22,15 @@
 
 == Synopsis
 
+  ns <options> [<port1> [<port2> ...]]
+
+  <options>
+  
+    -a  show all listeners
+    -k  kill programs using specified port
 
 == Copyright
 
 Author::    Genki Takiuchi <genki@s21g.com>
 Copyright:: Copyright (c) 2008 Genki Takiuchi
-License::   
+License::   MIT License
