@@ -3,7 +3,7 @@ require 'singleton'
 require 'socket'
 
 class Ns
-  VERSION = "0.0.2"
+  VERSION = "0.0.3"
   Listener = Struct.new(:proto, :recvq, :sendq, :laddr, :raddr, :state, :prog)
   @@all = false
 
@@ -40,7 +40,7 @@ class Ns
       next if l.laddr.split(':').size > 2
       next if l.prog.nil?
       pid, progname = l.prog.split('/', 2)
-      Process.kill(-9, pid.to_i)
+      system "kill -9 #{pid}"
       puts "%s(%s) killed" % [progname, pid]
     end
   end
