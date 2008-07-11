@@ -13,8 +13,8 @@ class Ns
       action = :list
       opt = OptionParser.new
       opt.on('-k', 'kill'){action = :kill}
+      opt.on('-a', 'all'){@@all = true}
       opt.order!(ARGV)
-
       instance.send action, ARGV
     end
   end
@@ -24,6 +24,7 @@ class Ns
       unless ports.empty?
         next unless l.laddr.match(/[^\:]\:(?:#{ports.join('|')})\b/)
       end
+      next if !@@all && (l.prog.nil? || l.prog == '-')
       next if l.laddr.split(':').size > 2
       puts "%18s  %18s  %s" % [l.laddr, l.raddr, l.prog]
     end
