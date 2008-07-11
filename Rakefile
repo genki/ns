@@ -8,6 +8,7 @@ require 'rake/rdoctask'
 require 'rake/contrib/rubyforgepublisher'
 require 'rake/contrib/sshpublisher'
 require 'fileutils'
+require 'lib/ns'
 include FileUtils
 
 NAME              = "ns"
@@ -17,7 +18,7 @@ DESCRIPTION       = "Net"
 RUBYFORGE_PROJECT = "ns"
 HOMEPATH          = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
 BIN_FILES         = %w(ns)
-VERS              = "0.0.1"
+VERS              = Ns::VERSION
 
 REV = File.read(".svn/entries")[/committed-rev="(d+)"/, 1] rescue nil
 CLEAN.include ['**/.*.sw?', '*.gem', '.config']
@@ -55,10 +56,10 @@ spec = Gem::Specification.new do |s|
 	s.rubyforge_project = RUBYFORGE_PROJECT
 	s.bindir            = "bin"
 	s.require_path      = "lib"
-	s.autorequire       = ""
+	#s.autorequire       = ""
 	s.test_files        = Dir["test/*_test.rb"]
 
-	#s.add_dependency('activesupport', '>=1.3.1')
+	s.add_dependency('redgreen', '>=1.2.1')
 	#s.required_ruby_version = '>= 1.8.2'
 
 	s.files = %w(README ChangeLog Rakefile) +
@@ -134,4 +135,9 @@ end
 desc 'Show information about the gem.'
 task :debug_gem do
 	puts spec.to_ruby
+end
+
+desc 'Update gem spec'
+task :gemspec do
+  open("#{NAME}.gemspec", 'w').write spec.to_ruby
 end
